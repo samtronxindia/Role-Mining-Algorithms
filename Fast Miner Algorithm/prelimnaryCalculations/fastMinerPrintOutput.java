@@ -2,9 +2,12 @@ package prelimnaryCalculations;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
+import java.util.HashSet;
+import java.util.Set;
 
 public class fastMinerPrintOutput extends PrintAnalysedOutputForCR {
+	
+	public static Set<String> topperms = new HashSet<String>();
 
 	public static void printOutput() {
 		
@@ -22,7 +25,6 @@ public class fastMinerPrintOutput extends PrintAnalysedOutputForCR {
 		ArrayList<Integer> horizontalCount = new ArrayList<Integer>();
 		ArrayList<Integer> verticalCountIR = new ArrayList<Integer>();
 		ArrayList<Integer> verticalCountGR = new ArrayList<Integer>();
-
 		
 		//for getting number of perms assoc. w/each IR
 		for(int w = 0 ; w < iR.size(); w ++){
@@ -44,28 +46,6 @@ public class fastMinerPrintOutput extends PrintAnalysedOutputForCR {
 				}
 			}
 			eachGrPermissions.add(w , eachGrPermissionsTemp);
-		}
-		
-		//for getting number of IR's each perm assoc to
-		for(int w = 0 ; w < iR.get(0).size(); w ++){
-			int eachIrPermissionsTemp = 0;
-			for(int pp = 0 ; pp < iR.size(); pp++){
-				if(iR.get(pp).get(w) == 1){
-					eachIrPermissionsTemp++;
-				}
-			}
-			eachIrVerticalPermissions.add(w, eachIrPermissionsTemp);
-		}
-		
-		//for getting number of GR's each perm assoc to
-		for(int w = 0 ; w < gR.get(0).size(); w ++){
-			int eachGrPermissionsTemp = 0;
-			for(int pp = 0 ; pp < gR.size(); pp++){
-				if(gR.get(pp).get(w) == 1){
-					eachGrPermissionsTemp++;
-				}
-			}
-			eachGrVerticalPermissions.add(w, eachGrPermissionsTemp);
 		}
 		
 		//vertical & horizontal number of X for UP
@@ -109,6 +89,20 @@ public class fastMinerPrintOutput extends PrintAnalysedOutputForCR {
 			writer.println("Total number of Perms: " + verticalCount.size());
 			writer.println("App distribution: " + horizontalCount);
 			writer.println("Total number of Apps: " + horizontalCount.size());
+			
+			int counterroles = 0;
+			//print perms assoc with each CR
+			for(int w = 0 ; w < getcR().size(); w ++){
+				for(int pp = 0 ; pp < getcR().get(0).size(); pp++){
+					if(getcR().get(w).get(pp) == 1){
+						topperms.add(perms1.get(pp));
+					}
+				}
+				counterroles++;
+				if(counterroles % 10 == 0) {
+					System.out.println("Counter:" + counterroles + ", Unique perms:" + topperms.size());
+				}
+			}
 				
 			for (int w = 0 ; w < verticalCount.size(); w++){
 				if (verticalCount.get(w) != 0){
@@ -121,15 +115,11 @@ public class fastMinerPrintOutput extends PrintAnalysedOutputForCR {
 			for(int w = 0 ; w < verticalCount.size(); w++){
 				if(verticalCount.get(w) != 0){
 					appsWithNonZeroPerms++;
-					//writer.println("Permission: " + perms1.get(w) + "Perm Count: " + verticalCount.get(w) + "\n");
 				}
 			}
-			//writer.println("============================================== \n");
-			//writer.println("Non zero permissions: " + temp9 + "\n");
 			for(int w = 0 ; w < verticalCount.size(); w++){
 				if(verticalCount.get(w) == 0){
 					appsWithZeroPerms++;
-					//writer.println("Permission: " + perms1.get(w) + "Perm Count: " + verticalCount.get(w) + "\n");
 				}
 			}
 			
@@ -138,14 +128,12 @@ public class fastMinerPrintOutput extends PrintAnalysedOutputForCR {
 			for(int w = 0 ; w < verticalCountIR.size(); w++){
 				if(verticalCountIR.get(w) != 0){
 					usedIrPerms++;
-					//writer.println("Permission: " + perms1.get(w) + "Perm Count: " + verticalCount.get(w) + "\n");
 				}
 			}
 			
 			for(int w = 0 ; w < verticalCountGR.size(); w++){
 				if(verticalCountGR.get(w) != 0){
 					usedGrPerms++;
-					//writer.println("Permission: " + perms1.get(w) + "Perm Count: " + verticalCount.get(w) + "\n");
 				}
 			}
 				
@@ -154,25 +142,12 @@ public class fastMinerPrintOutput extends PrintAnalysedOutputForCR {
 			writer.println("\n Used permissions GR: " + usedGrPerms);
 			writer.println("\n Number of Perms associated with each IR: " + eachIrPermissions + "\n");
 			
-			//for loop for outputing the permission names for every IRs
-			/*for(int w = 0 ; w < iR.size() ; w++){
-				writer.print("IR#"+ w + "-");
-				for(int pp = 0 ; pp < iR.get(0).size() ; pp++){
-					if(iR.get(w).get(pp) == 1){
-						writer.print(perms1.get(pp) + ",");
-					}
-				}
-				writer.print("\n");
-			}*/
-			
 			writer.println("Orig count:" + origCount + "\n");
 			writer.println("Orig count size:" + origCount.size() + "\n");
 			writer.println("\n Number of Perms associated with each GR: " + eachGrPermissions);
 			writer.println("Count:" + count + "\n");
 			writer.println("GR SIZE:" + gR.size() + "\n" );
-			//writer.println("\n Number of Perms associated with each CR: " + eachCrPermissions + "\n");
-			//writer.println("1st GR" + gR.get(0) + "\n" );
-			//writer.println("Perms size" + perms1.size() + "\n" );
+			
 			writer.println("Count Size:" + count.size() + "\n");
 			writer.close();
 		} catch (Exception e) {

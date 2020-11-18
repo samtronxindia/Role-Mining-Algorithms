@@ -4,10 +4,11 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PrintCR_And_Ratings extends EachRoleSetParticularsCalc {
+public class PrintCR_And_Ratings extends FewChecks {
 	
-	public static Set<String> topperms = new HashSet<String>();
-
+	/*
+	 * public static Set<String> topperms = new HashSet<String>();
+	 */
 	public static void printRating() {
 		
 		
@@ -15,18 +16,12 @@ public class PrintCR_And_Ratings extends EachRoleSetParticularsCalc {
 			PrintWriter writer1 = new PrintWriter("C:\\Users\\Samir\\Desktop\\workspace\\fastMinerTwo\\src\\outputs\\ratings"/*, "UTF-8"*/);
 			PrintWriter crPermWriter = new PrintWriter("C:\\Users\\Samir\\Desktop\\workspace\\fastMinerTwo\\src\\outputs\\PermCR"/*, "UTF-8"*/);
 			PrintWriter numCRPermWriter = new PrintWriter("C:\\Users\\Samir\\Desktop\\workspace\\fastMinerTwo\\src\\outputs\\numberofPermCR"/*, "UTF-8"*/);
-			
-			PrintWriter VerticalPermCRWriter = new PrintWriter("C:\\Users\\Samir\\Desktop\\workspace\\fastMinerTwo\\src\\outputs\\CRVerticalPermissions"/*, "UTF-8"*/);
-
 
 			//print rating
 			for(int i = 0 ; i < rating.size() ; i++){
 				writer1.println(rating.get(i));
 			}
-			
-			VerticalPermCRWriter.print(eachCrVerticalPermissions);
-			VerticalPermCRWriter.close();
-			
+						
 			for(int i = 0 ; i < eachCrPermissions.size() ; i++){
 				numCRPermWriter.println(eachCrPermissions.get(i));
 			}
@@ -37,34 +32,16 @@ public class PrintCR_And_Ratings extends EachRoleSetParticularsCalc {
 				for(int pp = 0 ; pp < getcR().get(0).size(); pp++){
 					if(getcR().get(w).get(pp) == 1){
 						crPermWriter.print(perms1.get(pp) + ",");
-						topperms.add(perms1.get(pp));
 					}
 				}
 				crPermWriter.print("\n");
 				counterroles++;
-				if(counterroles % 10 == 0) {
-					System.out.println("Counter:" + counterroles + ", Unique perms:" + topperms.size());
-				}
 			}
 			
 			//print sizes of rating
 			writer1.println("Size of rating: " + rating.size());
 			System.out.println("Size of rating: " + rating.size());
-			
-			//print CR (0's and 1's)	
-			PrintWriter writer2 = new PrintWriter("C:\\Users\\Samir\\Desktop\\workspace\\fastMinerTwo\\src\\outputs\\CandidateRoles");
-			writer2.print("\n");
-			for(int i = 0 ; i < getcR().size() ; i++){
-				for(int j = 0 ; j < getcR().get(0).size(); j++){
-					writer2.print(getcR().get(i).get(j) + ",");
-				}
-				writer2.print("\n");
-			}
-			//writer2.println("Size of CR: " + cR.size());
-			writer2.close();
-			
-			//end print CR (o's and 1's)
-			
+						
 			System.out.println("Size of CR: " + getcR().size());
 			writer1.close();
 			crPermWriter.close();

@@ -65,13 +65,6 @@ public class Initialization extends DataAquisition{
 			reconstructedUPA.add(i, new ArrayList<Integer>(temp));
 		}
 		
-		//output UPA
-		//**Print Commands**System.out.println("UPA:");
-		for(int i = 0 ; i < UPA.size() ; i++){
-			//**Print Commands**System.out.println(UPA.get(i));
-		}
-		//**Print Commands**System.out.println("============");
-		
 		for(int i = 0 ; i < UPA.get(0).size() ; i++){
 			P.add(0);
 		}
@@ -98,7 +91,6 @@ public class Initialization extends DataAquisition{
 	}
  
 	public Initialization() {
-		// TODO Auto-generated constructor stub
 		super();
 	}
 }

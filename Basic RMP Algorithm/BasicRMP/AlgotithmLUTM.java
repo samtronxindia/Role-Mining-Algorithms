@@ -40,7 +40,6 @@ public class AlgotithmLUTM extends Initialization{
 	}
 	
 	public static void getCurrentConsideredTile(int firstPermissionIndex, int lastPermissionIndex){
-				
 		for(int i = 0 ; i < UPA.size(); i++){
 			ArrayList<Integer> templist = new ArrayList<Integer>();
 			for(int j = 0 ; j < UPA.get(0).size(); j++){
@@ -77,7 +76,6 @@ public class AlgotithmLUTM extends Initialization{
 	}
 	
 	public static int getCurrentConsideredTileUncoveredArea(int firstPermissionIndex, int lastPermissionIndex){
-		
 		int areaOfCurrentTile = 0;
 		for(int i = 0 ; i < UPA.size(); i++){
 			for(int j = firstPermissionIndex; j <= lastPermissionIndex ; j++){
@@ -94,7 +92,6 @@ public class AlgotithmLUTM extends Initialization{
 	}
 	
 	public static void generateConditionalUPA(int currentPermissionIndex){
-		
 		for(int i = 0 ; i < UPA.size() ; i++){
 			for(int j = (currentPermissionIndex + 1) ; j < UPA.get(0).size() ; j++){
 				
@@ -111,7 +108,6 @@ public class AlgotithmLUTM extends Initialization{
 	}
 	
 	public static void generateConditionalUPAFromUPA(int currentPermissionIndex){
-		
 		for(int i = 0 ; i < UPA.size() ; i++){
 			for(int j = (currentPermissionIndex + 1) ; j < UPA.get(0).size() ; j++){
 				
@@ -126,7 +122,6 @@ public class AlgotithmLUTM extends Initialization{
 	}
 	
 	public static boolean checkNextConditionalUPANull(){
-		
 		for(int i = 0 ; i < nextConditionalUPA.size() ; i ++){
 			for(int j = 0 ; j < nextConditionalUPA.get(0).size() ; j++){
 				if(nextConditionalUPA.get(i).get(j) == 1){
@@ -138,7 +133,6 @@ public class AlgotithmLUTM extends Initialization{
 	}
 	
 	public static boolean checkConditionalUPANull(){
-		
 		for(int i = 0 ; i < conditionalUPA.size() ; i ++){
 			for(int j = 0 ; j < conditionalUPA.get(0).size() ; j++){
 				if(conditionalUPA.get(i).get(j) == 1){
@@ -152,15 +146,12 @@ public class AlgotithmLUTM extends Initialization{
 	public static void LUTM(){
 		
 		//init largest tile array LT & largest area known
-		//**Print Commands**System.out.println("++++++++++INSIDE LUTM+++++++++++++");
-
 		initLT();
 		int areaLT = 0;
 		countLUTM++;
 		
 		//locate the first uncovered permission to begin LUTM algorithm
 		locateFirstUncoveredPermission();
-		//**Print Commands**System.out.println("First perm : " + indexOfFirstPermissionLocated);
 		
 		//initialize currentTile to all 0s
 		initCurrentConsideredTile();
@@ -173,23 +164,15 @@ public class AlgotithmLUTM extends Initialization{
 			
 			//get area of current tile 
 			int uncoveredAreaTile = getCurrentConsideredTileUncoveredArea(indexOfFirstPermissionLocated, indexOfCurrentPermission);
-			//**Print Commands**System.out.println("Unc area of tile:" + uncoveredAreaTile + " & AreaLT:" + areaLT);
 			
 			//if uncovered area of current tile is greater than current known area of largest know tile, update LT and AreaLT
 			if(uncoveredAreaTile > areaLT){
-				//**Print Commands**System.out.println("Current Tile area > areaLT!");
 				for(int i = 0 ; i < currentConsideredTile.size(); i++){
 					LT.set(i, new ArrayList<Integer>(currentConsideredTile.get(i)));
 				}
 				areaLT = uncoveredAreaTile;
 			}
 			//output LT and areaLT
-			//**Print Commands**System.out.println("LT:");
-			for(int i = 0 ; i < LT.size() ; i++){
-				//**Print Commands**System.out.println(LT.get(i));
-			}
-			//**Print Commands**System.out.println("AreaLT:" + areaLT + "\n");
-
 			
 			if(indexOfCurrentPermission == indexOfFirstPermissionLocated){
 				
@@ -204,13 +187,9 @@ public class AlgotithmLUTM extends Initialization{
 				
 				//create conditional database for first time in this for loop
 				generateConditionalUPAFromUPA(indexOfCurrentPermission);
-				//**Print Commands**System.out.println("Generated conditionalUPA from UPA");
 				//output conditionalUPA
-				//**Print Commands**System.out.println("Conditional UPA:");
 				for(int i = 0 ; i < conditionalUPA.size() ; i++){
-					//**Print Commands**System.out.println(conditionalUPA.get(i));
 				}
-				//**Print Commands**System.out.println("\n");
 			}
 			else{
 				
@@ -225,27 +204,20 @@ public class AlgotithmLUTM extends Initialization{
 				
 				//create conditional database based on past conditional database
 				generateConditionalUPA(indexOfCurrentPermission);
-				//**Print Commands**System.out.println("Generated nextConditionalUPA from conditionalUPA");
 				//output nextConditionalUPA
-				//**Print Commands**System.out.println("Next Conditional UPA:");
 				for(int i = 0 ; i < nextConditionalUPA.size() ; i++){
-					//**Print Commands**System.out.println(nextConditionalUPA.get(i));
 				}
-				//**Print Commands**System.out.println("\n");
 			}
 			
 			if(indexOfCurrentPermission == indexOfFirstPermissionLocated){
 				if(checkConditionalUPANull() == true){
-					//**Print Commands**System.out.println("Null  conditional UPA! Exiting!!!");
 					break;
 				}
 			}else{
 				if(checkNextConditionalUPANull() == true){
-					//**Print Commands**System.out.println("Null next conditional UPA! Exiting!!!");
 					break;
 				}
 			}
-			//**Print Commands**System.out.println("----------------------------");
 		}
 	}
 }

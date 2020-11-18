@@ -21,12 +21,10 @@ public class RunMain extends RMP {
 		
 		System.out.println("PA:");
 		for(int i = 0 ; i < TilingPermissions.size() ; i ++){
-			//**Print Commands**System.out.println(TilingPermissions.get(i));
 		}
 		
 		System.out.println("UA:");
 		for(int i = 0 ; i < TilingUsers.size() ; i ++){
-			//**Print Commands**System.out.println(TilingUsers.get(i));
 		}
 	}
 	
@@ -74,17 +72,6 @@ public class RunMain extends RMP {
 	
 	public static int compareMatrix(){
 		
-		/*//calc num of permissions per app
-		for(int i = 0 ; i < UPA.size(); i ++){
-			int appPerm = 0;
-			for(int j = 0 ; j < UPA.get(0).size() ; j++){
-				if(UPA.get(i).get(j) == 1){
-					appPerm++;
-				}
-			}
-			numOfPermsPerAppUPA.set(i, appPerm);
-		}*/
-		
 		//calc the reconstructed matrix UPA^
 		for(int i = 0 ; i < TilingUsers.get(0).size() ; i++){//i denotes the column number of UA
 			for(int j = 0 ; j < TilingUsers.size() ; j++){//j denotes the row number of UA
@@ -102,17 +89,6 @@ public class RunMain extends RMP {
 		for(int i = 0 ; i < reconstructedUPA.size() ; i++){
 			numOfPermsPerAppReconstructedUPA.add(i, 0);
 		}
-		
-		/*//calc num of permissions per app
-		for(int i = 0 ; i < reconstructedUPA.size(); i ++){
-			int appPerm = 0;
-			for(int j = 0 ; j < reconstructedUPA.get(0).size() ; j++){
-				if(reconstructedUPA.get(i).get(j) == 1){
-					appPerm++;
-				}
-			}
-			numOfPermsPerAppReconstructedUPA.set(i, appPerm);
-		}*/
 		
 		int distanceUPA = 0;
 		//calc l1 norm between reconstructed UPA and UPA
@@ -148,7 +124,6 @@ public class RunMain extends RMP {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 		try{
 			PrintWriter outputRolePermissionCount = new PrintWriter("C:\\Users\\Samir\\Desktop\\workspace\\BasicRMP\\src\\output\\RoleCount.txt");
 			for(int i = 0 ; i < TilingUsers.size() ; i++){
@@ -164,18 +139,14 @@ public class RunMain extends RMP {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-
-		
 		return distanceUPA;
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
 		//run data acquisition and gather UPA
 		fm();
 		displayIr();		
-		
+	
 		//exec the basic-RMP algorithm
 		RMPExecute();
 		
@@ -190,9 +161,5 @@ public class RunMain extends RMP {
 		
 		System.out.println("Perms size:" + perms1.size());
 		System.out.println("Perms " + perms1);
-		
-		
-
 	}
-
 }

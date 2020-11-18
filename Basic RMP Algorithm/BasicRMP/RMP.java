@@ -83,32 +83,25 @@ public class RMP extends AlgotithmLUTM{
 		// TODO Auto-generated method stub
 		
 		//check which permissions are never assigned to any app and add them to P - ???
-		//checkPermissions();
 		
 		//initialize the UPA matrix and P - the covered permissions set
 		initializeUPAmmAndP();
 		
 		//check which permissions are never assigned to any users
 		checkPermissions();
-		//**Print Commands**System.out.println("P: " + P);
 		
 		int tileNum = 0;
 		
 		do{
 			//call the LUTM algorithm to execute on the UPA
-			//**Print Commands**System.out.println("++++++++++INSIDE RMP+++++++++++++");
-			//**Print Commands**System.out.println(" LUTM count:" + countLUTM);
 			LUTM();
 			
 			updateUPATilingMatrix();
 			
 			//update the P - set of permissions fully covered or not assigned to any users
-			//**Print Commands**System.out.println("P: " + P);
 			checkPermissions();
-			//**Print Commands**System.out.println("P: " + P);
-			
+
 			storeTile(tileNum);
-			
 			tileNum++;
 			
 		}while(checkLTNull() == false && checkPAll() == false);

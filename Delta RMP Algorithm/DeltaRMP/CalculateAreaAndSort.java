@@ -26,26 +26,21 @@ public class CalculateAreaAndSort extends InitAndDataCollection{
 				}
 			}
 			for(j = 0 ; j < static_UPA.size(); j++){//take row from static_UPA
-				//System.out.print("static_CR:" + static_CR.get(i) + "static_UPA:" + static_UPA.get(j));
 				for(k = (static_CR.get(0).size() - 1) ; k >= 0  ; k--){//compare individual permission-elements
 					if(static_CR.get(i).get(k) == 0){
 						continue;
 					}
 					if(static_CR.get(i).get(k) == 1){
 						if(static_UPA.get(j).get(k) == 0){
-							//System.out.print("No Match!" + "\n");
 							break;
 						}
 					}
 				}
 				
 				if(k == -1){
-					//System.out.print("Match!" + "\n");
 					count++;
 				}
 			}
-			//System.out.println("\n" + count + "," + numPerm + "\n");
-			//traversed the static_UPA for 1 Role in static_CR, calc the area of role and add it to static_areaOfRole
 			static_areaOfRole.set(i, (count * numPerm));
 		}
 	}
@@ -73,16 +68,10 @@ public class CalculateAreaAndSort extends InitAndDataCollection{
 					}
 				}
 			}
-			/*System.out.print("Index: " + maxAreaIndex + " & ");
-			System.out.print(" Area: " + static_areaOfRole.get(maxAreaIndex));
-			System.out.println(" static_CR: " + static_CR.get(maxAreaIndex) + "\n");*/
 			
 			static_sortedCR.add(new ArrayList<Integer>(static_CR.get(maxAreaIndex)));
 			static_areaOfSortedRole.add(static_areaOfRole.get(maxAreaIndex));
 			addedTemp.set(maxAreaIndex, 1);
-			
-			/*System.out.println(static_sortedCR);
-			System.out.println(static_areaOfSortedRole);*/
 		}
 	}
 	

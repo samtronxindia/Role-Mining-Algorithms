@@ -64,15 +64,8 @@ public class Updaters extends Getters{
 			//get the tile corresponding to current role i
 			getTileForRole(i);
 			
-			/*System.out.println("TileforRole");
-			for(int a = 0 ; a < tileForRole.size(); a++){
-				System.out.println(tileForRole.get(a));
-			}*/
-			//System.out.println("Tile size: " + tileForRole.size());
-			
 			//get uncovered area for role
 			uncoveredAreaOfSortedRole.set(i, getUncoveredArea());
-			//System.out.println("UNC Area: " + uncoveredAreaOfSortedRole.get(i));
 		}
 	}
 	

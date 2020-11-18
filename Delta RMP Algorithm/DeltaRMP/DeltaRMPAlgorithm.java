@@ -25,34 +25,17 @@ public class DeltaRMPAlgorithm extends Updaters{
 		
 		//init delta
 		delta = 0;
-		
+
 		//end of initialization
-		
+
 		finalCR.add(new ArrayList<Integer>(static_sortedCR.get(0)));
 		getTileForRole(0);
 		
-		/*System.out.println("Tile");
-		for(int i = 0 ; i < tileForRole.size() ; i++){
-			System.out.println(tileForRole.get(i));
-		}*/
-		
-		/*for(int i = 0 ; i < upaTilingMatrix.size() ; i++){
-			System.out.println(upaTilingMatrix.get(i));
-		}*/
 		updateUPATilingMatrix();
-		//System.out.println("Final static_CR: " + finalCR + "\n");
-		/*for(int i = 0 ; i < upaTilingMatrix.size() ; i++){
-			System.out.println(upaTilingMatrix.get(i));
-		}*/
 		added.set(0, 1);
 		
 		updateUncoveredArea();
 		updateDelta();
-		
-		/*System.out.println("delta: init" + delta);
-
-		
-		System.out.println("Unc area after 1 iter:" + uncoveredAreaOfSortedRole);*/
 	}
 	
 	public void calcFinalCR(int tempDelta){
@@ -72,22 +55,8 @@ public class DeltaRMPAlgorithm extends Updaters{
 				callPrinter();
 			}
 			
-			
 			maxArea = 0;
 			maxAreaIndex = 0;
-			
-			//skip the role if any common perms found between it, and the exclusion list for perms "addedPerm"
-			/*int skipRole = 0;
-			for(int b = 0 ; b < addedPerm.size() ; b++) {
-				if(static_sortedCR.get(i).get(b) == 1) {
-					if(addedPerm.get(b) == 1) {
-						skipRole = 1;
-					}
-				}
-			}
-			if(skipRole == 1) {
-				continue;
-			}*/
 			
 			for(int j = 0 ; j < uncoveredAreaOfSortedRole.size() ; j++){
 				if(added.get(j) == 1){
@@ -98,21 +67,8 @@ public class DeltaRMPAlgorithm extends Updaters{
 					maxAreaIndex = j;
 				}
 			}
-			//System.out.println("Max unc area index " + maxAreaIndex + " max unc area: " + maxArea);
-			
-			//add all perm elements from the best role obtained to the exception list "addedPerm"
-			/*for(int a = 0 ; a < addedPerm.size() ; a++) {
-				if(static_sortedCR.get(maxAreaIndex).get(a) == 1) {
-					addedPerm.set(a, 1);
-				}
-			}*/
 			
 			finalCR.add(new ArrayList<Integer>(static_sortedCR.get(maxAreaIndex)));
-			
-			/*System.out.println("FinCR");
-			for(int a = 0 ; a < finalCR.size() ; a++){
-				System.out.println(finalCR.get(a));
-			}*/
 			
 			//init tile for the role
 			clearTileForRole();
@@ -128,15 +84,9 @@ public class DeltaRMPAlgorithm extends Updaters{
 			
 			//update uncovered area of remaining roles
 			updateUncoveredArea();
-			//System.out.println("unc area updated: " + uncoveredAreaOfSortedRole);
 			
 			//update the delta value
-			updateDelta();
-			
-			//callPrinter();
-			//System.out.println("delta: " + delta);
-			
-			//System.out.println(uncoveredAreaOfSortedRole);
+			updateDelta();	
 		}
 		
 		//post processing on the finalCR based on "non-overlapping roles/groups"
@@ -152,8 +102,6 @@ public class DeltaRMPAlgorithm extends Updaters{
 		
 		callPrinter();
 	}
-	
-	
 	
 	public void callPrinter(){
 		printPA();

@@ -82,8 +82,6 @@ public class Getters extends Initialize {
 		}
 		underPrivilegeTotal = (underPrivilegeTotal / static_UPA.size()) * 100;
 		overPrivilegeTotal = (overPrivilegeTotal / static_UPA.size()) * 100;
-		//System.out.println(privilegePerc);
-		//static_privilege.add(privilegePerc);
 	}
 	
 	public int getStaticPermissionCoverage(){
@@ -98,7 +96,6 @@ public class Getters extends Initialize {
 			}
 		}
 		return coveredPermTemp;
-		//static_permissionCoverage.add(coveredPermTemp);
 	}
 	public Getters() {
 		super();

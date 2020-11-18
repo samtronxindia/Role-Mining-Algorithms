@@ -80,8 +80,6 @@ public static void getTileForRole(int roleTemp) {
 		}
 		underPrivilegeTotal = (underPrivilegeTotal / UPA.size()) * 100;
 		overPrivilegeTotal = (overPrivilegeTotal / UPA.size()) * 100;
-		//System.out.println(privilegePerc);
-		//static_privilege.add(privilegePerc);
 	}
 	
 	public static int getStaticPermissionCoverage(){
@@ -96,7 +94,6 @@ public static void getTileForRole(int roleTemp) {
 			}
 		}
 		return coveredPermTemp;
-		//static_permissionCoverage.add(coveredPermTemp);
 	}
 	public static int getStaticPermissionCoverage2(){
 		
@@ -110,7 +107,6 @@ public static void getTileForRole(int roleTemp) {
 			}
 		}
 		return coveredPermTemp;
-		//static_permissionCoverage.add(coveredPermTemp);
 	}
 
 }

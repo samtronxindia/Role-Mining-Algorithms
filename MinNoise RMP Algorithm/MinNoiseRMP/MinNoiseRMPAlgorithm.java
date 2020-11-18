@@ -29,37 +29,16 @@ public class MinNoiseRMPAlgorithm extends Updaters {
 		finalCR.add(new ArrayList<Integer>(sortedCR.get(0)));
 		getTileForRole(0);
 
-		/*
-		 * System.out.println("Tile"); for(int i = 0 ; i < tileForRole.size() ; i++){
-		 * System.out.println(tileForRole.get(i)); }
-		 */
-
-		/*
-		 * for(int i = 0 ; i < upaTilingMatrix.size() ; i++){
-		 * System.out.println(upaTilingMatrix.get(i)); }
-		 */
 		updateUPATilingMatrix();
 
 		// store tile as role in UA and PA
 		storeTile(tileNum);
 		tileNum++;
 
-		// System.out.println("Final static_CR: " + finalCR + "\n");
-		/*
-		 * for(int i = 0 ; i < upaTilingMatrix.size() ; i++){
-		 * System.out.println(upaTilingMatrix.get(i)); }
-		 */
 		added.set(0, 1);
 
 		updateUncoveredArea();
 		updateDelta();
-
-		/*
-		 * System.out.println("delta: init" + delta);
-		 * 
-		 * 
-		 * System.out.println("Unc area after 1 iter:" + uncoveredAreaOfSortedRole);
-		 */
 	}
 
 	public static void calcFinalCR(int tempRoleSetCardinality) {
@@ -90,58 +69,6 @@ public class MinNoiseRMPAlgorithm extends Updaters {
 				loop3 = true;
 				break;
 			}
-			
-
-			/*
-			 * if (getStaticPermissionCoverage2() >= 161) { System.out.println("Cov Perms: "
-			 * + getStaticPermissionCoverage2());
-			 * 
-			 * associateAdditionalRoles(); System.out.println("UA: \n"); for (int i2 = 0; i2
-			 * < TilingUsers.size(); i2++) { for (int j2 = 0; j2 <
-			 * TilingUsers.get(0).size(); j2++) {
-			 * System.out.print(TilingUsers.get(i2).get(j2) + ","); }
-			 * System.out.print("\n"); } System.out.println("PA: \n"); for (int i2 = 0; i2 <
-			 * TilingPermissions.size(); i2++) { for (int j2 = 0; j2 <
-			 * TilingPermissions.get(0).size(); j2++) {
-			 * System.out.print(TilingPermissions.get(i2).get(j2) + ","); }
-			 * System.out.print("\n"); }
-			 * 
-			 * break; }
-			 */
-			/*
-			 * if(getStaticPermissionCoverage2() >= 33 && loop1 == false) {
-			 * System.out.println("Cov Perms: " + getStaticPermissionCoverage2());
-			 * 
-			 * associateAdditionalRoles();
-			 * 
-			 * System.out.println("UA: \n"); for(int i2=0; i2 < TilingUsers.size(); i2++) {
-			 * for(int j2=0; j2 < TilingUsers.get(0).size(); j2++) {
-			 * System.out.print(TilingUsers.get(i2).get(j2) + ","); }
-			 * System.out.print("\n"); } System.out.println("PA: \n"); for(int i2=0; i2 <
-			 * TilingPermissions.size(); i2++) { for(int j2=0; j2 <
-			 * TilingPermissions.get(0).size(); j2++) {
-			 * System.out.print(TilingPermissions.get(i2).get(j2) + ","); }
-			 * System.out.print("\n"); }
-			 * 
-			 * loop1 = true;
-			 * 
-			 * }
-			 */
-			/*
-			 * if(getStaticPermissionCoverage2() >= 97 && loop2 == false) {
-			 * System.out.println("Cov Perms: " + getStaticPermissionCoverage2());
-			 * 
-			 * associateAdditionalRoles(); System.out.println("UA: \n"); for(int i2=0; i2 <
-			 * TilingUsers.size(); i2++) { for(int j2=0; j2 < TilingUsers.get(0).size();
-			 * j2++) { System.out.print(TilingUsers.get(i2).get(j2) + ","); }
-			 * System.out.print("\n"); } System.out.println("PA: \n"); for(int i2=0; i2 <
-			 * TilingPermissions.size(); i2++) { for(int j2=0; j2 <
-			 * TilingPermissions.get(0).size(); j2++) {
-			 * System.out.print(TilingPermissions.get(i2).get(j2) + ","); }
-			 * System.out.print("\n"); } loop2 = true;
-			 * 
-			 * }
-			 */
 
 			if (delta < 1) {
 				break;
@@ -162,15 +89,8 @@ public class MinNoiseRMPAlgorithm extends Updaters {
 					maxAreaIndex = j;
 				}
 			}
-			// System.out.println("Max unc area index " + maxAreaIndex + " max unc area: " +
-			// maxArea);
 
 			finalCR.add(new ArrayList<Integer>(sortedCR.get(maxAreaIndex)));
-
-			/*
-			 * System.out.println("FinCR"); for(int a = 0 ; a < finalCR.size() ; a++){
-			 * System.out.println(finalCR.get(a)); }
-			 */
 
 			// init tile for the role
 			clearTileForRole();
@@ -188,13 +108,9 @@ public class MinNoiseRMPAlgorithm extends Updaters {
 
 			// update uncovered area of remaining roles
 			updateUncoveredArea();
-			// System.out.println("unc area updated: " + uncoveredAreaOfSortedRole);
 
 			// update the delta value
 			updateDelta();
-			// System.out.println("delta: " + delta);
-
-			// System.out.println(uncoveredAreaOfSortedRole);
 		}
 	}
 

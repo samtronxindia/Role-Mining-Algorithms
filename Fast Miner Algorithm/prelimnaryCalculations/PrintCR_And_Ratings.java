@@ -41,6 +41,20 @@ public class PrintCR_And_Ratings extends FewChecks {
 			//print sizes of rating
 			writer1.println("Size of rating: " + rating.size());
 			System.out.println("Size of rating: " + rating.size());
+			
+			//print CR (0's and 1's)	
+			PrintWriter writer2 = new PrintWriter("C:\\Users\\Samir\\Desktop\\workspace\\fastMinerTwo\\src\\outputs\\CandidateRoles");
+			writer2.print("\n");
+			for(int i = 0 ; i < getcR().size() ; i++){
+				for(int j = 0 ; j < getcR().get(0).size(); j++){
+					writer2.print(getcR().get(i).get(j) + ",");
+				}
+				writer2.print("\n");
+			}
+			//writer2.println("Size of CR: " + cR.size());
+			writer2.close();
+			
+			//end print CR (o's and 1's)
 						
 			System.out.println("Size of CR: " + getcR().size());
 			writer1.close();

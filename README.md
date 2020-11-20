@@ -2,4 +2,4 @@
 
 These are implementations of the role mining algorithms from the literature.
 
-![alt text](https://github.com/samtronxindia/Role-Mining-Algorithms/blob/master/Role%20mining%20algorithms%20table.png?raw=true)
+![alt text](https://github.com/samtronxindia/Role-Mining-Algorithms/blob/master/Role_mining_algorithms_table.png?raw=true)

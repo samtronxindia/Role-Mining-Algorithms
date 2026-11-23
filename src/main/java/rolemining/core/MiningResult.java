@@ -30,10 +30,11 @@ public final class MiningResult {
         this.assignments = assignments == null ? null : copy(assignments);
     }
 
-    public List<BitSet> roles() { return roles; }
+    /** A fresh copy on every call; changing it does not change this result. */
+    public List<BitSet> roles() { return copy(roles); }
 
     /** May be null when the miner produces roles only. */
-    public List<BitSet> assignments() { return assignments; }
+    public List<BitSet> assignments() { return assignments == null ? null : copy(assignments); }
 
     /** Algorithm-specific numbers, printed with the metrics. Insertion ordered. */
     public Map<String, Object> stats() { return stats; }

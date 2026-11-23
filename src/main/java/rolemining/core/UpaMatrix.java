@@ -90,11 +90,15 @@ public final class UpaMatrix {
             if (trimmed.isEmpty()) continue;
             BitSet b = new BitSet();
             int width = 0;
-            for (String token : trimmed.split(",")) {
-                String t = token.strip();
-                if (t.isEmpty()) continue;
+            String[] tokens = trimmed.split(",", -1);
+            int last = tokens.length - 1;
+            while (last >= 0 && tokens[last].isBlank()) last--;   // trailing commas are allowed
+            for (int i = 0; i <= last; i++) {
+                String t = tokens[i].strip();
                 if (t.equals("1")) b.set(width);
-                else if (!t.equals("0")) {
+                else if (t.isEmpty()) {
+                    throw new IOException(matrixCsv + ":" + lineNo + ": empty value in column " + (i + 1));
+                } else if (!t.equals("0")) {
                     throw new IOException(matrixCsv + ":" + lineNo + ": expected 0 or 1 but found '" + t + "'");
                 }
                 width++;

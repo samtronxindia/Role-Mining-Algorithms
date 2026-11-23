@@ -15,9 +15,21 @@ public final class Metrics {
      * a user holds every role whose permissions are all in the user's row.
      */
     public static List<BitSet> assignments(UpaMatrix upa, MiningResult result) {
-        if (result.assignments() != null) return result.assignments();
+        List<BitSet> roles = result.roles();
+        List<BitSet> given = result.assignments();
+        for (int r = 0; r < roles.size(); r++) {
+            if (roles.get(r).length() > upa.permCount()) {
+                throw new IllegalArgumentException("role " + (r + 1) + " uses permission index "
+                        + (roles.get(r).length() - 1) + ", but the matrix has " + upa.permCount() + " permissions");
+            }
+            if (given != null && given.get(r).length() > upa.userCount()) {
+                throw new IllegalArgumentException("role " + (r + 1) + " is assigned to user index "
+                        + (given.get(r).length() - 1) + ", but the matrix has " + upa.userCount() + " users");
+            }
+        }
+        if (given != null) return given;
         List<BitSet> ua = new ArrayList<>();
-        for (BitSet role : result.roles()) {
+        for (BitSet role : roles) {
             BitSet users = new BitSet(upa.userCount());
             if (!role.isEmpty()) {
                 for (int u = 0; u < upa.userCount(); u++) {
@@ -36,10 +48,11 @@ public final class Metrics {
         List<BitSet> ua = assignments(upa, result);
         List<BitSet> rows = new ArrayList<>();
         for (int u = 0; u < upa.userCount(); u++) rows.add(new BitSet(upa.permCount()));
-        for (int r = 0; r < result.roles().size(); r++) {
+        List<BitSet> roles = result.roles();
+        for (int r = 0; r < roles.size(); r++) {
             BitSet users = ua.get(r);
             for (int u = users.nextSetBit(0); u >= 0; u = users.nextSetBit(u + 1)) {
-                rows.get(u).or(result.roles().get(r));
+                rows.get(u).or(roles.get(r));
             }
         }
         return rows;

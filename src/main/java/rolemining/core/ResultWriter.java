@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-/** Writes roles.csv, assignments.csv and metrics.txt into an output directory. */
+/**
+ * Writes roles.csv, assignments.csv and metrics.txt into an output directory.
+ * Names within a list are separated by semicolons; the list is CSV-quoted when needed.
+ */
 public final class ResultWriter {
     private ResultWriter() {}
 
@@ -24,7 +27,7 @@ public final class ResultWriter {
                 StringJoiner names = new StringJoiner(";");
                 BitSet role = roles.get(r);
                 for (int p = role.nextSetBit(0); p >= 0; p = role.nextSetBit(p + 1)) names.add(upa.permName(p));
-                w.println((r + 1) + "," + role.cardinality() + "," + names);
+                w.println((r + 1) + "," + role.cardinality() + "," + quote(names.toString()));
             }
         }
         try (PrintWriter w = new PrintWriter(Files.newBufferedWriter(dir.resolve("assignments.csv"), StandardCharsets.UTF_8))) {
@@ -34,12 +37,20 @@ public final class ResultWriter {
                 StringJoiner names = new StringJoiner(";");
                 BitSet users = ua.get(r);
                 for (int u = users.nextSetBit(0); u >= 0; u = users.nextSetBit(u + 1)) names.add(upa.userName(u));
-                w.println((r + 1) + "," + users.cardinality() + "," + names);
+                w.println((r + 1) + "," + users.cardinality() + "," + quote(names.toString()));
             }
         }
         try (PrintWriter w = new PrintWriter(Files.newBufferedWriter(dir.resolve("metrics.txt"), StandardCharsets.UTF_8))) {
             metrics.forEach((k, v) -> w.println(k + "=" + v));
             result.stats().forEach((k, v) -> w.println(k + "=" + v));
         }
+    }
+
+    /** CSV-quotes a field when it contains a comma, quote or line break. */
+    static String quote(String field) {
+        if (field.indexOf(',') < 0 && field.indexOf('"') < 0 && field.indexOf('\n') < 0 && field.indexOf('\r') < 0) {
+            return field;
+        }
+        return '"' + field.replace("\"", "\"\"") + '"';
     }
 }

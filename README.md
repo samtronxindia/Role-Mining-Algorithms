@@ -61,7 +61,7 @@ usage: rolemine --algo NAME --input UPA.csv [--perms FILE] [--users FILE]
 - LF or CRLF line endings
 - UTF-8, UTF-8 with a byte order mark, and UTF-16 (little or big endian) with a byte order mark. A file without a byte order mark is read as UTF-8.
 
-Every row must have the same number of values as the first. A value other than 0 or 1, or a row of a different length, is an error that names the file and line number. Empty fields (for example the one between two consecutive commas) are skipped, not counted as zeros, so write every zero out.
+Every row must have the same number of values as the first. A value other than 0 or 1, or a row of a different length, is an error that names the file and line number. Trailing commas are allowed, but an empty value in the middle of a row is an error.
 
 **Permission names** (`--perms`) and **user names** (`--users`): optional. Either one name per line, or all names on a single comma-separated line. A file with exactly one line is split on commas, unless the matrix has exactly one permission (or user). The number of names must equal the number of columns (or rows), otherwise loading fails. User names that contain commas, such as those in `data/android-500/apps.txt`, therefore need to be given one per line. Without these files the names are generated: `u0`, `u1`, ... and `p0`, `p1`, ...
 
@@ -70,7 +70,7 @@ Every row must have the same number of values as the first. A value other than 0
 With `--out DIR`, three files are written to `DIR` (created if needed):
 
 - `roles.csv`: header `role,size,permissions`. One row per mined role: its number (starting at 1), how many permissions it has, and the permission names joined with `;`.
-- `assignments.csv`: header `role,userCount,users`. One row per role: its number, how many users hold it, and the user names joined with `;`. Names are written as they are, without CSV quoting, so a name containing a comma will make a row ambiguous.
+- `assignments.csv`: header `role,userCount,users`. One row per role: its number, how many users hold it, and the user names joined with `;`. The list is CSV-quoted when a name contains a comma or a double quote.
 - `metrics.txt`: `name=value` lines. The metrics below, then any extra numbers the algorithm reports.
 
 The same `name=value` lines are printed to the terminal, preceded by `algorithm=NAME` and followed by `millis=` (the mining time in milliseconds).

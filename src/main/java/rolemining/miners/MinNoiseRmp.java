@@ -25,7 +25,7 @@ import rolemining.miners.rmp.RoleSteps;
  * holding more than {@code associateThreshold} of its permissions. The result's
  * noise (delta) counts both missing and extra permissions.
  *
- * <p>See NOTES-rmp.md for the parameters, statistics and differences from the
+ * <p>See docs/rmp-miners.md for the parameters, statistics and differences from the
  * legacy code.
  */
 public final class MinNoiseRmp implements RoleMiner {

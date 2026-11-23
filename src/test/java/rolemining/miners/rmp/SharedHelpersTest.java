@@ -29,9 +29,14 @@ public class SharedHelpersTest {
                 CandidateSources.rowsAndPairwiseIntersections(m, MinerOptions.empty()));
     }
 
-    public void defaultSourceIsTheGenerator() {
-        Check.equal(CandidateSources.rowsAndPairwiseIntersections(UPA, MinerOptions.empty()),
+    public void defaultSourceHasTheGeneratorsRoles() {
+        // The default source is FastMiner in legacy order: same roles as the
+        // standalone generator, possibly with the empty role and repeats.
+        java.util.Set<BitSet> fromFastMiner = new java.util.HashSet<>(
                 CandidateSources.defaultSource().apply(UPA, MinerOptions.empty()));
+        fromFastMiner.remove(new BitSet());
+        Check.equal(new java.util.HashSet<>(CandidateSources.rowsAndPairwiseIntersections(UPA, MinerOptions.empty())),
+                fromFastMiner);
     }
 
     public void fixedSourceReturnsFreshCopies() {

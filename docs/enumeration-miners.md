@@ -1,5 +1,7 @@
 # CompleteMiner and FastMiner (subset enumeration)
 
+The legacy folders and files named here were removed from the working tree in the cleanup; they are in the git history (commit `cdee03a` and earlier).
+
 Ports of the legacy `Complete Miner Algorithm/completeMiner.java` and
 `Fast Miner Algorithm/prelimnaryCalculations/*.java` (entry point
 `fastMinerTwo.java`). Both implement algorithms from Vaidya, Atluri and Warner,

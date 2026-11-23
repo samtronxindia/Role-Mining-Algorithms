@@ -9,30 +9,34 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import rolemining.core.MinerOptions;
 import rolemining.core.UpaMatrix;
+import rolemining.miners.FastMiner;
 
 /**
  * Where the candidate-based miners (Delta RMP, MinNoise RMP, Basic RMP with
  * tiles=candidates) get their candidate roles from.
  *
  * <p>The legacy code took its candidates from the output file of the legacy
- * FastMiner. That miner is ported separately; until it is wired in here,
- * {@link #defaultSource()} uses {@link #rowsAndPairwiseIntersections}, which
- * generates the same set of roles (see that method for how the order differs).
+ * FastMiner. {@link #defaultSource()} does the same with the ported
+ * {@link FastMiner}, in the legacy file's order, so ties between candidates of
+ * equal area break exactly as they did in the original runs.
  */
 public final class CandidateSources {
     private CandidateSources() {}
 
     /**
-     * THE default candidate source used by the no-argument constructors of
-     * {@code BasicRmp}, {@code DeltaRmp} and {@code MinNoiseRmp}. This is the one
-     * place to change when the ported FastMiner becomes available.
+     * The default candidate source used by the no-argument constructors of
+     * {@code BasicRmp}, {@code DeltaRmp} and {@code MinNoiseRmp}: FastMiner's
+     * candidate roles in legacy order. That list can contain the empty role and
+     * repeated roles; the miners drop both before ranking. The miner's own options
+     * are not passed on, so parameter names cannot collide.
      */
     public static BiFunction<UpaMatrix, MinerOptions, List<BitSet>> defaultSource() {
-        return CandidateSources::rowsAndPairwiseIntersections;
+        return (upa, options) -> new FastMiner().candidateRoles(upa, MinerOptions.empty());
     }
 
     /**
-     * The candidate set of FastMiner (Vaidya, Atluri, Warner 2006): every distinct
+     * A standalone generator for the candidate set of FastMiner (Vaidya, Atluri,
+     * Warner 2006), kept for tests and as an independent cross-check: every distinct
      * user row, then every distinct non-empty intersection of two distinct rows
      * that is not already in the list.
      *

@@ -7,3 +7,5 @@
 - JDK-only build with `make` (no Maven or Gradle), plus plain-Java tests run by `make test`.
 - Data files consolidated from duplicated copies into `data/`.
 - Added README, `data/README.md`, `CITATION.cff`, this changelog, a to-do list and a GitHub Actions workflow that runs the tests.
+- Defects found in the original programs are fixed by default and documented in `docs/`; `legacy` parameters reproduce the original outputs.
+- The original per-algorithm source folders are removed; they remain in the git history.

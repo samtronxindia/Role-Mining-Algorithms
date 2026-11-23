@@ -1,5 +1,7 @@
 # Basic RMP, delta-approx RMP and MinNoise RMP
 
+The legacy folders and files named here were removed from the working tree in the cleanup; they are in the git history (commit `cdee03a` and earlier).
+
 Ports of the three legacy implementations in `Basic RMP Algorithm/`, `Delta RMP Algorithm/` and
 `MinNoise RMP Algorithm/` onto the shared core. They implement the problem variants of Vaidya, Atluri
 and Guo, "The role mining problem: finding a minimal descriptive set of roles" (SACMAT 2007):
@@ -35,24 +37,19 @@ The miners do no file I/O and print nothing. They keep no state between calls.
 The legacy Delta and MinNoise RMP first ran the legacy FastMiner, then read its `CandidateRoles` file.
 `DeltaRmp` and `MinNoiseRmp` (and only those) take a candidate source in their constructor:
 `BiFunction<UpaMatrix, MinerOptions, List<BitSet>>`. The no-argument constructors use
-**`CandidateSources.defaultSource()`**, the single place to rewire. It currently returns
-`CandidateSources::rowsAndPairwiseIntersections`: every distinct user row (in first-occurrence order),
-then every distinct non-empty intersection of two distinct rows not already listed (in (i, j) pair order).
+`CandidateSources.defaultSource()`, which calls the ported `FastMiner.candidateRoles` and so returns
+the same rows, in the same order, as the legacy `CandidateRoles` file. The miner's own options are
+not passed on to FastMiner.
 
-On the 500-app data this is exactly the legacy candidate set (14471 roles). The legacy file has 14606 rows
-because it also holds the empty role and 134 duplicates. The duplicates come from `CalcCandidateRolesAndRatings.calcRating`,
-which skips the element after every `iR.remove(i)`. The **order differs from the legacy file**. The legacy
-file lists rows that are also pairwise intersections first, then the other rows, then the remaining intersections.
-After ranking, the two candidate lists agree in their first 292 positions. Every parity result below
-is identical with either list. On small random matrices the order does change which of several equal-area roles
-is picked, so exact parity needs the legacy order. Duplicates and the empty role make no difference
-(`RankedRoles` drops them).
+On the 500-app data that list has 14606 rows: 14471 distinct non-empty roles, the empty role and
+134 duplicates. The duplicates come from `CalcCandidateRolesAndRatings.calcRating`, which skips the
+element after every `iR.remove(i)`. Duplicates and the empty role make no difference to these miners
+(`RankedRoles` drops them); the order matters only for breaking ties between candidates of equal area.
 
-To rewire, replace the body of `defaultSource()`, for example with
-`return (upa, options) -> new FastMiner().mine(upa, options).roles();`. The `MinerOptions` given to the
-RMP miner are passed to the source unchanged, so FastMiner parameter names must not collide with
-`delta`, `roles`, `nonOverlapping`, `traceBelow`, `associateThreshold`, `interimAssociations`, `roleCap` or
-`refreshAfterAssociation`.
+`CandidateSources.rowsAndPairwiseIntersections` is an independent generator of the same set, in a
+different order (every distinct user row, then every new non-empty intersection of two rows). It is
+used by the tests and by the parity harness as a cross-check: on the 500-app data every parity
+result below is identical with either list.
 
 ## Shared behaviour (Delta RMP and MinNoise RMP)
 

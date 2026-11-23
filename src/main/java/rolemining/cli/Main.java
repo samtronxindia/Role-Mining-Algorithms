@@ -30,6 +30,7 @@ public final class Main {
         Path perms = null;
         Path users = null;
         Path out = null;
+        boolean withAssignments = true;
         MinerOptions options = MinerOptions.empty();
         for (int i = 0; i < args.length; i++) {
             String a = args[i];
@@ -41,6 +42,7 @@ public final class Main {
                 case "--perms" -> perms = Path.of(value(args, ++i, a));
                 case "--users" -> users = Path.of(value(args, ++i, a));
                 case "--out" -> out = Path.of(value(args, ++i, a));
+                case "--no-assignments" -> withAssignments = false;
                 case "--param" -> {
                     String kv = value(args, ++i, a);
                     int eq = kv.indexOf('=');
@@ -68,7 +70,7 @@ public final class Main {
         result.stats().forEach((k, v) -> System.out.println(k + "=" + v));
         System.out.println("millis=" + millis);
         if (out != null) {
-            ResultWriter.write(out, upa, result, metrics);
+            ResultWriter.write(out, upa, result, metrics, withAssignments);
             System.out.println("wrote " + out);
         }
         return 0;
@@ -81,12 +83,13 @@ public final class Main {
 
     private static void usage(Map<String, RoleMiner> miners) {
         System.out.println("usage: rolemine --algo NAME --input UPA.csv [--perms FILE] [--users FILE]");
-        System.out.println("                [--out DIR] [--param name=value ...]");
+        System.out.println("                [--out DIR] [--no-assignments] [--param name=value ...]");
         System.out.println();
         System.out.println("  --input   0/1 matrix, one row per user, comma separated");
         System.out.println("  --perms   permission names, one per column: one per line, or one comma-separated line");
         System.out.println("  --users   user names, one per row, same format");
         System.out.println("  --out     directory for roles.csv, assignments.csv, metrics.txt");
+        System.out.println("  --no-assignments  do not write assignments.csv (large when there are many roles)");
         System.out.println("  --list    print algorithm names");
         System.out.println();
         System.out.println("algorithms:");

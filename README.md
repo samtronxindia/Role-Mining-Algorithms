@@ -38,12 +38,13 @@ Run an algorithm on the bundled 500-app dataset and write the result files to `r
 
 ```
 usage: rolemine --algo NAME --input UPA.csv [--perms FILE] [--users FILE]
-                [--out DIR] [--param name=value ...]
+                [--out DIR] [--no-assignments] [--param name=value ...]
 
   --input   0/1 matrix, one row per user, comma separated
   --perms   permission names, one per column: one per line, or one comma-separated line
   --users   user names, one per row, same format
   --out     directory for roles.csv, assignments.csv, metrics.txt
+  --no-assignments  do not write assignments.csv (large when there are many roles)
   --list    print algorithm names
 ```
 
@@ -92,7 +93,36 @@ Which users hold which roles is taken from the algorithm if it returns an assign
 
 ## Algorithms
 
-<!-- ALGORITHMS: filled in by the coordinator from the miners' notes -->
+`./rolemine --help` lists each algorithm with its parameters and defaults. Parameters are given as `--param name=value`.
+
+| `--algo` | Algorithm | Paper | Main parameters |
+| --- | --- | --- | --- |
+| `completeminer` | CompleteMiner: intersections of all subsets of the users' permission sets | Vaidya, Atluri, Warner 2006 | `maxGeneratedRoles=1000000`, `order`, `legacy` |
+| `fastminer` | FastMiner: pairwise intersections of the users' permission sets | Vaidya, Atluri, Warner 2006 | `order`, `legacy` |
+| `basicrmp` | Basic RMP: greedy tiling that covers the matrix exactly | Vaidya, Atluri, Guo 2007 | none |
+| `deltarmp` | delta-approx RMP: greedy tiling over FastMiner's candidates until at most `delta` cells are uncovered | Vaidya, Atluri, Guo 2007 | `delta=350`, `nonOverlapping=true` |
+| `minnoise` | MinNoise RMP: at most `roles` roles from FastMiner's candidates, then extra assignments | Vaidya, Atluri, Guo 2007 | `roles=10`, `associateThreshold=0.5` |
+
+Results on the bundled 500-app dataset with default parameters:
+
+| `--algo` | roles | underAssigned | overAssigned | distance |
+| --- | --- | --- | --- | --- |
+| `completeminer` | 241005 | 0 | 0 | 0 |
+| `fastminer` | 14471 | 0 | 0 | 0 |
+| `basicrmp` | 173 | 0 | 0 | 0 |
+| `deltarmp` | 26 | 3871 | 0 | 3871 |
+| `minnoise` | 10 | 2035 | 2843 | 4878 |
+
+Notes:
+
+- CompleteMiner and FastMiner return candidate roles, which include every distinct user row, so their distance is always 0.
+- With its default `nonOverlapping=true`, `deltarmp` removes from each role the permissions of earlier roles, as the original code did. The algorithm's own `delta` (349 here, after 87 roles) is measured before that step; the 26 roles left afterwards no longer cover the matrix to within delta. Use `--param nonOverlapping=false` to get roles whose distance equals delta.
+- CompleteMiner's output is large (241005 roles here). Add `--no-assignments` to skip `assignments.csv`.
+
+The ports were checked against the original programs. With `--param legacy=true`, CompleteMiner and FastMiner reproduce the original files in `Output/` byte for byte. Delta RMP reproduces `Delta RMP roles.csv`, and MinNoise RMP reproduces all 38 `PA_R_*` files, some of which need non-default parameters. The defects found in the original code, which are fixed by default, and the settings that reproduce each original file are described in:
+
+- [docs/enumeration-miners.md](docs/enumeration-miners.md): CompleteMiner and FastMiner
+- [docs/rmp-miners.md](docs/rmp-miners.md): Basic RMP, delta-approx RMP and MinNoise RMP
 
 ## Bundled datasets
 
@@ -107,6 +137,8 @@ See `data/README.md` for details.
 ```
 src/main/java/rolemining/core/   matrix loading, miner interface, metrics, result files
 src/main/java/rolemining/cli/    command line (Main) and the list of miners (Miners)
+src/main/java/rolemining/miners/ the five algorithms and their helpers
+docs/                            notes on each algorithm and on parity with the original code
 src/test/java/                   tests and the small test runner
 src/test/resources/fixtures/     small matrices used by the tests
 data/                            bundled datasets

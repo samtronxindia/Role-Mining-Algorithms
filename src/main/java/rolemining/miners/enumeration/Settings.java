@@ -10,7 +10,7 @@ import rolemining.core.MinerOptions;
  *
  * <ul>
  * <li>{@code legacy} (default false): reproduce the original program exactly,
- *     including its defects (see NOTES-enum.md): the all-zero role seeded into the
+ *     including its defects (see docs/enumeration-miners.md): the all-zero role seeded into the
  *     generated roles is kept, the merge of initial and generated roles skips the
  *     element after each merge (so some roles appear twice), and CompleteMiner's
  *     priorities are shifted by one step.</li>

@@ -25,7 +25,7 @@ import rolemining.miners.rmp.RoleSteps;
  *
  * <p>Users get a role exactly when they hold all its permissions, so roles never
  * grant extra permissions and delta is the number of uncovered UPA cells. See
- * NOTES-rmp.md for the parameters, statistics and differences from the legacy code.
+ * docs/rmp-miners.md for the parameters, statistics and differences from the legacy code.
  */
 public final class DeltaRmp implements RoleMiner {
     public static final int DEFAULT_DELTA = 350;

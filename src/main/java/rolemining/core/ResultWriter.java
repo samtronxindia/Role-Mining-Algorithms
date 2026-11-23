@@ -19,6 +19,12 @@ public final class ResultWriter {
 
     public static void write(Path dir, UpaMatrix upa, MiningResult result, Map<String, Object> metrics)
             throws IOException {
+        write(dir, upa, result, metrics, true);
+    }
+
+    /** @param withAssignments false to skip assignments.csv, which is large when there are many roles */
+    public static void write(Path dir, UpaMatrix upa, MiningResult result, Map<String, Object> metrics,
+            boolean withAssignments) throws IOException {
         Files.createDirectories(dir);
         try (PrintWriter w = new PrintWriter(Files.newBufferedWriter(dir.resolve("roles.csv"), StandardCharsets.UTF_8))) {
             w.println("role,size,permissions");
@@ -30,7 +36,7 @@ public final class ResultWriter {
                 w.println((r + 1) + "," + role.cardinality() + "," + quote(names.toString()));
             }
         }
-        try (PrintWriter w = new PrintWriter(Files.newBufferedWriter(dir.resolve("assignments.csv"), StandardCharsets.UTF_8))) {
+        if (withAssignments) try (PrintWriter w = new PrintWriter(Files.newBufferedWriter(dir.resolve("assignments.csv"), StandardCharsets.UTF_8))) {
             w.println("role,userCount,users");
             List<BitSet> ua = Metrics.assignments(upa, result);
             for (int r = 0; r < ua.size(); r++) {

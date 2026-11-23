@@ -1,0 +1,9 @@
+#!/bin/bash
+# Run the role mining command line. Compiles the project on first use.
+# Needs only a JDK (17 or later) and make.
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+if [ ! -d "$DIR/out/main" ]; then
+    make -s -C "$DIR" build
+fi
+exec java -cp "$DIR/out/main" rolemining.cli.Main "$@"

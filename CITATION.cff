@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata in this file."
+title: "Role-Mining-Algorithms"
+type: software
+authors:
+  - family-names: "Talegaon"
+    given-names: "Samir"
+repository-code: "https://github.com/samtronxindia/Role-Mining-Algorithms"
+references:
+  - type: conference-paper
+    title: "RoleMiner: mining roles using subset enumeration"
+    authors:
+      - family-names: "Vaidya"
+        given-names: "Jaideep"
+      - family-names: "Atluri"
+        given-names: "Vijayalakshmi"
+      - family-names: "Warner"
+        given-names: "Janice"
+    collection-title: "Proceedings of the 13th ACM Conference on Computer and Communications Security (CCS '06)"
+    publisher:
+      name: "ACM"
+    year: 2006
+    start: 144
+    end: 153
+    doi: "10.1145/1180405.1180424"
+  - type: conference-paper
+    title: "The role mining problem: finding a minimal descriptive set of roles"
+    authors:
+      - family-names: "Vaidya"
+        given-names: "Jaideep"
+      - family-names: "Atluri"
+        given-names: "Vijayalakshmi"
+      - family-names: "Guo"
+        given-names: "Qi"
+    collection-title: "Proceedings of the 12th ACM Symposium on Access Control Models and Technologies (SACMAT '07)"
+    publisher:
+      name: "ACM"
+    year: 2007
+    start: 175
+    end: 184
+    doi: "10.1145/1266840.1266870"
